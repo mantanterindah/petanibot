@@ -3,6 +3,8 @@ const {REST} = require('@discordjs/rest');
 const { SlashCommandBuilder, Routes } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const dotenv = require('dotenv');
+const express = require('express')
+const app = express()
 
 dotenv.config();
 const fs = require('fs')
