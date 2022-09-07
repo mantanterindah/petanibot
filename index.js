@@ -4,12 +4,10 @@ const { SlashCommandBuilder, Routes } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const dotenv = require('dotenv');
 
-//dotenv.config();
+dotenv.config();
 const fs = require('fs')
-//const { token } = require('./config.token');
-const { clientId, guildId, token } = require('./config.json');
-//dotenv.config();
-//const clientId = process.env.clientId
+const clientId = process.env.CLIENT_ID
+const guildId = process.env.GUILD_ID
 
 const client = new Client({
   intents: [
@@ -56,7 +54,7 @@ fs.readdirSync('./Commands').forEach(dirs => {
   }
 })
 
-const rest = new REST({version: '10'}).setToken(token);
+const rest = new REST({version: '10'}).setToken(process.env.TOKEN);
 
 (async () => {
   try {
@@ -79,4 +77,4 @@ const rest = new REST({version: '10'}).setToken(token);
 
 //});
 
-client.login(process.env.token).catch(console.error)
+client.login(process.env.TOKEN).catch(console.error)
