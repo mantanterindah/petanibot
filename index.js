@@ -79,4 +79,4 @@ const rest = new REST({version: '10'}).setToken(token);
 
 //});
 
-client.login(token).catch(console.error)
+client.login(process.env.token).catch(console.error)
