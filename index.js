@@ -1,15 +1,23 @@
-const { Client, GatewayIntentBits , Collection} = require('discord.js');
-const {REST} = require('@discordjs/rest');
+const { Client, GatewayIntentBits, Collection } = require('discord.js');
+const { REST } = require('@discordjs/rest');
 const { SlashCommandBuilder, Routes } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const dotenv = require('dotenv');
-const express = require('express')
-const app = express()
+const request = require('request');
+const cheerio = require('cheerio');
 
-dotenv.config();
+
+const keepAlive = require(`./server`);
+
+
+
 const fs = require('fs')
+//const { clientId, guildId, token } = require('./config.json');
+dotenv.config();
+
 const clientId = process.env.CLIENT_ID
 const guildId = process.env.GUILD_ID
+
 
 const client = new Client({
   intents: [
@@ -21,8 +29,8 @@ const client = new Client({
 });
 
 client.on('ready', () => {
-    const Games = [`Ragnarok Retro`, `Age of Ragnarok`, 'Dragon Nest Return']
-    setInterval(() => { client.user.setActivity(`${Games[Math.floor(Math.random() * Games.length)] }`) }, 30000)
+  const Games = [`Ragnarok Retro`, `Age of Ragnarok`, 'Dragon Nest Return']
+  setInterval(() => { client.user.setActivity(`${Games[Math.floor(Math.random() * Games.length)]}`) }, 30000)
 });
 
 // Command Handling
@@ -32,8 +40,8 @@ fs.readdirSync('./Events').forEach(dirs => {
   const EventFiles = fs.readdirSync(`./Events/${dirs}`)
     .filter(file =>
       file.endsWith('.js')
-           )
-    
+    )
+
   for (const file of EventFiles) {
     const EventName = file.split(".")[0]
     const Event = require(`./Events/${dirs}/${file}`)
@@ -47,8 +55,8 @@ fs.readdirSync('./Commands').forEach(dirs => {
   const CommandFiles = fs.readdirSync(`./Commands/${dirs}`)
     .filter(file =>
       file.endsWith('.js')
-           )
-    
+    )
+
   for (const file of CommandFiles) {
     const command = require(`./Commands/${dirs}/${file}`)
     commands.push(command.data.toJSON())
@@ -56,32 +64,29 @@ fs.readdirSync('./Commands').forEach(dirs => {
   }
 })
 
-const rest = new REST({version: '10'}).setToken(process.env.TOKEN);
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 
 (async () => {
   try {
     console.log('Started refreshing application (/) commands.');
-    
+
     await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
-        body: commands
-      },
+      body: commands
+    },
     );
-    
+
     console.log('Successfully reloaded application (/) commands.');
-  
+
   } catch (error) {
     console.error(error);
   }
 })();
 
-  
-  console.log(`Client ready`);
+
+console.log(`Client ready`);
 
 //});
 
 client.login(process.env.TOKEN).catch(console.error)
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Our app is running on port ${ PORT }`);
-});
+keepAlive();
