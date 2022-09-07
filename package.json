@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "discord.js": "^14.3.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "request": "^2.88.2"
+  },
+  "name": "tesdc",
+  "description": "This is a very simple Discord.js bot that uses slash commands.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "tenuzholic",
+  "license": "ISC"
+}
