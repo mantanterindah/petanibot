@@ -81,6 +81,7 @@ const rest = new REST({version: '10'}).setToken(process.env.TOKEN);
 
 client.login(process.env.TOKEN).catch(console.error)
 
-app.listen(process.env.PORT || 3001, '0.0.0.0', () => {
-  console.log("Server is running.");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
 });
